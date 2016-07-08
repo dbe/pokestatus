@@ -1,5 +1,6 @@
 class StatusesController < ApplicationController
   def index
-    @status = "Fucked"
+    #TODO: Change this logic
+    @status = Status.last.pretty
   end
 end
