@@ -1,3 +1,21 @@
-%h1
-  OREO is
-  = @oreo
+.container
+  .row
+    #status-box
+      .well
+        %span
+          PokémonGo Server Status:
+        %span#status-text
+          = @status
+  .row
+    #report-box
+      .well
+        %p
+          Describe the Pokémon Go server status
+        %button.btn.btn-success
+          Working!
+        %button.btn.btn-warning
+          Intermittently working
+        %button.btn.btn-danger
+          Total Broken
+
+  .row

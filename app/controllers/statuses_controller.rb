@@ -1,5 +1,5 @@
 class StatusesController < ApplicationController
   def index
-    @oreo = "OREOS"
+    @status = "Fucked"
   end
 end
