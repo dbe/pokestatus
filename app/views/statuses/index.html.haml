@@ -13,12 +13,13 @@
       .well
         %p
           Describe the Pokémon Go server status
-        %button.btn.btn-success
-          Working!
-        %button.btn.btn-warning
-          Intermittently working
-        %button.btn.btn-danger
-          Total Broken
+        = form_tag(reports_path, method: :post, remote: true) do |f|
+          %button.btn.btn-success#report-up{:name => 'report_status', :value => 'up'}
+            Working!
+          %button.btn.btn-warning#report-intermittent{:name => 'report_status', :value => 'intermittent'}
+            Intermittently working
+          %button.btn.btn-danger#report-down{:name => 'report_status', :value => 'down'}
+            Total Broken
 
   .row
     .col-md-6
@@ -44,3 +45,8 @@
         .well
           %h2
             Real Time Status Reports
+
+:javascript
+  $(function() {
+    console.log("In jquery ready");
+  });
