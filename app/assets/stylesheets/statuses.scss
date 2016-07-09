@@ -8,8 +8,20 @@
   color: grey;
 }
 
+#email-box {
+  text-align: center;
+}
+
+#email-thanks {
+  display: none;
+}
+
 #report-box {
   text-align: center;
+}
+
+#report-thanks {
+  display: none;
 }
 
 #current-status-text.down {

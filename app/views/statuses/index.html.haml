@@ -11,18 +11,37 @@
   .row
     #report-box
       .well
-        %p
-          Describe the Pokémon Go server status
-        = form_tag(reports_path, method: :post, remote: true) do |f|
-          %button.btn.btn-success#report-up{:name => 'report_status', :value => 'up'}
-            Working!
-          %button.btn.btn-warning#report-intermittent{:name => 'report_status', :value => 'intermittent'}
-            Intermittently working
-          %button.btn.btn-danger#report-down{:name => 'report_status', :value => 'down'}
-            Total Broken
+        #report-request
+          %p
+            Describe the Pokémon Go server status
+          = form_tag(reports_path, method: :post, remote: true, id: 'report-form') do |f|
+            %button.btn.btn-success#report-up{:name => 'report_status', :value => 'up'}
+              Working!
+            %button.btn.btn-warning#report-intermittent{:name => 'report_status', :value => 'intermittent'}
+              Intermittently working
+            %button.btn.btn-danger#report-down{:name => 'report_status', :value => 'down'}
+              Total Broken
+        .alert.alert-success#report-thanks
+          Thank you for your submission!
 
   .row
-    .col-md-6
+    .col-lg-6.col-lg-offset-3#email-box
+      .well
+        #email-request
+          %p
+            Would you like to get notifications on the server status?
+          = form_tag(subscribers_path, method: :post, remote: true, class: 'form-horizontal', id: 'email-form') do
+            .form-group
+              = label_tag :email, "Email", class: 'col-sm-2 control-label'
+              .col-sm-10
+                = text_field_tag :email, nil, class: 'form-control', type: 'email'
+            .form-group
+              = submit_tag 'Submit', class: 'btn btn-primary'
+
+        .alert.alert-success#email-thanks
+          Thank you for your submission!
+  .row
+    .col-lg-6
       #past-statuses
         .well
           %h2
@@ -40,7 +59,7 @@
                 %td
                   = "#{time_ago_in_words(status.time)} ago"
 
-    .col-md-6
+    .col-lg-6
       #reports
         .well
           %h2
@@ -49,4 +68,14 @@
 :javascript
   $(function() {
     console.log("In jquery ready");
+    
+    $(document).on('ajax:complete', '#email-form', function() {
+      $('#email-request').hide();
+      $('#email-thanks').show();
+    });
+
+    $(document).on('ajax:complete', '#report-form', function() {
+      $('#report-request').hide();
+      $('#report-thanks').show();
+    });
   });

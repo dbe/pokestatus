@@ -6,5 +6,7 @@ class CreateSubscribers < ActiveRecord::Migration[5.0]
 
       t.timestamps
     end
+
+    add_index :subscribers, :email, unique: true
   end
 end
