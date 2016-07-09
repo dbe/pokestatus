@@ -4,8 +4,10 @@
       .well
         %span
           PokémonGo Server Status:
-        %span#status-text{:class => @status.status}
+        %span#current-status-text{:class => @status.status}
           = @status.status.titleize
+        %span#current-status-time
+          = "Updated #{time_ago_in_words(@status.time)} ago."
   .row
     #report-box
       .well

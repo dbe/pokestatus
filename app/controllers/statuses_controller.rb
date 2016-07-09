@@ -1,7 +1,6 @@
 class StatusesController < ApplicationController
   def index
     @statuses = Status.all
-
-    @status = @statuses.last
+    @status = @statuses.first
   end
 end

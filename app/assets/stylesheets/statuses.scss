@@ -3,18 +3,23 @@
   text-align: center;
 }
 
+#current-status-time {
+  font-size: 10px;
+  color: grey;
+}
+
 #report-box {
   text-align: center;
 }
 
-#status-text.down {
+#current-status-text.down {
   color: #d9534f;
 }
 
-#status-text.intermittent {
+#current-status-text.intermittent {
   color: #f0ad4e;
 }
 
-#status-text.up {
+#current-status-text.up {
   color: #5cb85c;
 }
