@@ -5,3 +5,10 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+now = DateTime.now
+
+Status.create!(:status => "down", :time => now)
+Status.create!(:status => "intermittent", :time => now - 22.hours)
+Status.create!(:status => "up", :time => now - 36.hours)
+Status.create!(:status => "down", :time => now - 48.hours)

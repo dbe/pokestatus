@@ -1,6 +1,7 @@
 class StatusesController < ApplicationController
   def index
-    #TODO: Change this logic
-    @status = Status.last.pretty
+    @statuses = Status.all
+
+    @status = @statuses.last
   end
 end

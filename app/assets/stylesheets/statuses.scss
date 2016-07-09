@@ -6,3 +6,15 @@
 #report-box {
   text-align: center;
 }
+
+#status-text.down {
+  color: #d9534f;
+}
+
+#status-text.intermittent {
+  color: #f0ad4e;
+}
+
+#status-text.up {
+  color: #5cb85c;
+}

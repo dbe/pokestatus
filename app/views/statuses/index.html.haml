@@ -4,8 +4,8 @@
       .well
         %span
           PokémonGo Server Status:
-        %span#status-text
-          = @status
+        %span#status-text{:class => @status.status}
+          = @status.status.titleize
   .row
     #report-box
       .well
@@ -23,7 +23,20 @@
       #past-statuses
         .well
           %h2
-            Previous Status
+            Status History
+          %table.table
+            %tr
+              %th
+                Status
+              %th
+                Time
+            - @statuses.each do |status|
+              %tr
+                %td
+                  = status.status.titleize
+                %td
+                  = "#{time_ago_in_words(status.time)} ago"
+
     .col-md-6
       #reports
         .well
