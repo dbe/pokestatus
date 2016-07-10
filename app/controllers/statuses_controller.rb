@@ -1,6 +1,6 @@
 class StatusesController < ApplicationController
   def index
-    @statuses = Status.all
+    @statuses = Status.order(time: :desc)
     @status = @statuses.first
 
     @reports = Report.order(time: :desc)
