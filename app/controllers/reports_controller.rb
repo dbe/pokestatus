@@ -25,8 +25,6 @@ class ReportsController < ApplicationController
 
 
   def reports_since
-    puts "OREO"
-    puts time_ago_in_words(Report.first.time)
     if(params[:last])
       reports = Report.where("id > #{params[:last]}")
       reports = reports.map do |report|
