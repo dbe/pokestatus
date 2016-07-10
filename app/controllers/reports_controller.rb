@@ -1,7 +1,8 @@
 class ReportsController < ApplicationController
   def create
     #Get reports from same IP within an hour
-    previous_reports = Report.where(ip: request.remote_ip, time: 1.hour.ago..DateTime.now)
+    #TODO: CHange this back from 10 seconds when going to prod
+    previous_reports = Report.where(ip: request.remote_ip, time: 10.seconds.ago..DateTime.now)
 
     if previous_reports.any?
       return head :too_many_requests
@@ -16,5 +17,11 @@ class ReportsController < ApplicationController
     if report
       return head :ok 
     end
+  end
+
+
+  def reports_since
+    reports = Report.where("id > #{params[:last]}")
+    render json: reports.to_json
   end
 end

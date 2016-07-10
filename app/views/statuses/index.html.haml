@@ -64,11 +64,24 @@
         .well
           %h2
             Real Time Status Reports
+          %table.table
+            %tr
+              %th
+                Status
+              %th
+                Time
+            - @reports.each do |report|
+              %tr
+                %td
+                  = report.status.titleize
+                %td
+                  = "#{time_ago_in_words(report.time)} ago"
 
 :javascript
   $(function() {
-    console.log("In jquery ready");
-    
+    var lastReportId = "#{@last_report_id}";
+    console.log("Last report ID: " + lastReportId);
+
     $(document).on('ajax:complete', '#email-form', function() {
       $('#email-request').hide();
       $('#email-thanks').show();
@@ -77,5 +90,16 @@
     $(document).on('ajax:complete', '#report-form', function() {
       $('#report-request').hide();
       $('#report-thanks').show();
+      
+      console.log("Returned from report form");
+      fetchReports(lastReportId);
     });
+
+    function fetchReports(lastId) {
+      $.ajax("#{reports_since_path}").always(function(data) {
+        console.log("In always return");
+        console.log(data);
+      });
+    }
+
   });
