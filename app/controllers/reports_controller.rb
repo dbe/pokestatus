@@ -1,8 +1,12 @@
+#For time_ago_in_words...a bit hacky
+include ActionView::Helpers::DateHelper
+
 class ReportsController < ApplicationController
+
   def create
+    timeout = Rails.env == "production" ? 10.minutes : 5.seconds
     #Get reports from same IP within an hour
-    #TODO: CHange this back from 10 seconds when going to prod
-    previous_reports = Report.where(ip: request.remote_ip, time: 10.minutes.ago..DateTime.now)
+    previous_reports = Report.where(ip: request.remote_ip, time: timeout.ago..DateTime.now)
 
     if previous_reports.any?
       return head :too_many_requests
@@ -21,7 +25,17 @@ class ReportsController < ApplicationController
 
 
   def reports_since
-    reports = Report.where("id > #{params[:last]}")
+    puts "OREO"
+    puts time_ago_in_words(Report.first.time)
+    if(params[:last])
+      reports = Report.where("id > #{params[:last]}")
+      reports = reports.map do |report|
+        {time: "#{time_ago_in_words(report.time)} ago", status: report.status.titleize}
+      end
+    else
+      reports = []
+    end
+
     render json: reports.to_json
   end
 end

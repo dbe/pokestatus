@@ -35,6 +35,8 @@
               = label_tag :email, "Email", class: 'col-sm-2 control-label'
               .col-sm-10
                 = text_field_tag :email, nil, class: 'form-control', type: 'email'
+                %p#email-disclaimer
+                  We will never sell your e-mail or spam you with unrelated crap. This is just for pokemon go yo!
             .form-group
               = submit_tag 'Submit', class: 'btn btn-primary'
 
@@ -64,18 +66,20 @@
         .well
           %h2
             Real Time Status Reports
-          %table.table
-            %tr
-              %th
-                Status
-              %th
-                Time
-            - @reports.each do |report|
+          %table.table#report-table
+            %thead
               %tr
-                %td
-                  = report.status.titleize
-                %td
-                  = "#{time_ago_in_words(report.time)} ago"
+                %th
+                  Status
+                %th
+                  Time
+            %tbody
+              - @reports.each do |report|
+                %tr
+                  %td
+                    = report.status.titleize
+                  %td
+                    = "#{time_ago_in_words(report.time)} ago"
 
 :javascript
   $(function() {
@@ -96,10 +100,22 @@
     });
 
     function fetchReports(lastId) {
-      $.ajax("#{reports_since_path}").always(function(data) {
+      $.ajax({
+        'url' : "#{reports_since_path}",
+        'data' : {'last' : lastId}
+      }).always(function(data) {
         console.log("In always return");
         console.log(data);
+        if(data.length > 0) {
+          appendReports(data);
+        }
       });
     }
 
+    function appendReports(reports) {
+      for(var i = 0; i < reports.length; i++) {
+        var report = reports[i];
+        $('#report-table > tbody > tr:first').before('<tr><td>' + report.status + '</td><td>' + report.time + '</td></tr>');
+      }
+    }
   });
