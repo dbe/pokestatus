@@ -1,85 +1,88 @@
 .container
-  .row
-    #status-box
-      .well
-        %span
-          PokémonGo Server Status:
-        %span#current-status-text{:class => @status.status}
-          = @status.status.titleize
-        %span#current-status-time
-          = "Updated #{time_ago_in_words(@status.time)} ago."
-  .row
-    #report-box
-      .well
-        #report-request
-          %p
-            Describe the Pokémon Go server status
-          = form_tag(reports_path, method: :post, remote: true, id: 'report-form') do |f|
-            %button.btn.btn-success#report-up{:name => 'report_status', :value => 'up'}
-              Working!
-            %button.btn.btn-warning#report-intermittent{:name => 'report_status', :value => 'intermittent'}
-              Intermittently working
-            %button.btn.btn-danger#report-down{:name => 'report_status', :value => 'down'}
-              Total Broken
-        .alert.alert-success#report-thanks
-          Thank you for your submission!
-
-  .row
-    .col-lg-6.col-lg-offset-3#email-box
-      .well
-        #email-request
-          %p
-            Would you like to get notifications on the server status?
-          = form_tag(subscribers_path, method: :post, remote: true, class: 'form-horizontal', id: 'email-form') do
-            .form-group
-              = label_tag :email, "Email", class: 'col-sm-2 control-label'
-              .col-sm-10
-                = text_field_tag :email, nil, class: 'form-control', type: 'email'
-                %p#email-disclaimer
-                  We will never sell your e-mail or spam you with unrelated crap. This is just for pokemon go yo!
-            .form-group
-              = submit_tag 'Submit', class: 'btn btn-primary'
-
-        .alert.alert-success#email-thanks
-          Thank you for your submission!
-  .row
-    .col-lg-6
-      #past-statuses
+  .col-md-8
+    .row
+      #status-box
         .well
-          %h2
-            Status History
-          %table.table
-            %tr
-              %th
-                Status
-              %th
-                Time
-            - @statuses.each do |status|
-              %tr
-                %td
-                  = status.status.titleize
-                %td
-                  = "#{time_ago_in_words(status.time)} ago"
-
-    .col-lg-6
-      #reports
+          %span
+            PokémonGo Server Status:
+          %span#current-status-text{:class => @status.status}
+            = @status.status.titleize
+          %span#current-status-time
+            = "Updated #{time_ago_in_words(@status.time)} ago."
+    .row
+      #report-box
         .well
-          %h2
-            Real Time Status Reports
-          %table.table#report-table
-            %thead
+          #report-request
+            %p
+              Describe the Pokémon Go server status
+            = form_tag(reports_path, method: :post, remote: true, id: 'report-form') do |f|
+              %button.btn.btn-success#report-up{:name => 'report_status', :value => 'up'}
+                Working!
+              %button.btn.btn-warning#report-intermittent{:name => 'report_status', :value => 'intermittent'}
+                Intermittently working
+              %button.btn.btn-danger#report-down{:name => 'report_status', :value => 'down'}
+                Total Broken
+          .alert.alert-success#report-thanks
+            Thank you for your submission!
+
+    .row
+      .col-lg-6.col-lg-offset-3#email-box
+        .well
+          #email-request
+            %p
+              Would you like to get notifications on the server status?
+            = form_tag(subscribers_path, method: :post, remote: true, class: 'form-horizontal', id: 'email-form') do
+              .form-group
+                = label_tag :email, "Email", class: 'col-sm-2 control-label'
+                .col-sm-10
+                  = text_field_tag :email, nil, class: 'form-control', type: 'email'
+                  %p#email-disclaimer
+                    We will never sell your e-mail or spam you with unrelated crap. This is just for pokemon go yo!
+              .form-group
+                = submit_tag 'Submit', class: 'btn btn-primary'
+
+          .alert.alert-success#email-thanks
+            Thank you for your submission!
+    .row
+      .col-lg-6
+        #past-statuses
+          .well
+            %h2
+              Status History
+            %table.table
               %tr
                 %th
                   Status
                 %th
                   Time
-            %tbody
-              - @reports.each do |report|
+              - @statuses.each do |status|
                 %tr
                   %td
-                    = report.status.titleize
+                    = status.status.titleize
                   %td
-                    = "#{time_ago_in_words(report.time)} ago"
+                    = "#{time_ago_in_words(status.time)} ago"
+
+      .col-lg-6
+        #reports
+          .well
+            %h2
+              Real Time Status Reports
+            %table.table#report-table
+              %thead
+                %tr
+                  %th
+                    Status
+                  %th
+                    Time
+              %tbody
+                - @reports.each do |report|
+                  %tr
+                    %td
+                      = report.status.titleize
+                    %td
+                      = "#{time_ago_in_words(report.time)} ago"
+  .col-md-4
+    #barq-container
 
 :javascript
   $(function() {
