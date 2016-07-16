@@ -7,8 +7,13 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 now = DateTime.now
+r = Random.new
 
-Status.create!(:status => "down", :time => now)
-Status.create!(:status => "intermittent", :time => now - 22.hours)
-Status.create!(:status => "up", :time => now - 36.hours)
-Status.create!(:status => "down", :time => now - 48.hours)
+#Status.create!(:status => "down", :time => now)
+#Status.create!(:status => "intermittent", :time => now - 22.hours)
+#Status.create!(:status => "up", :time => now - 36.hours)
+#Status.create!(:status => "down", :time => now - 48.hours)
+
+100.times do |i|
+  Report.create!(:status => r.rand(0..2), :time => now - r.rand(86400).seconds)
+end
