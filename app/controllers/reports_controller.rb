@@ -28,7 +28,7 @@ class ReportsController < ApplicationController
     if(params[:last])
       reports = Report.where("id > #{params[:last]}")
       reports = reports.map do |report|
-        {time: "#{time_ago_in_words(report.time)} ago", status: report.status.titleize}
+        {time: "#{time_ago_in_words(report.time)} ago", status: report.status.titleize, id:report.id}
       end
     else
       reports = []

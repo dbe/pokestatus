@@ -84,7 +84,6 @@
 :javascript
   $(function() {
     var lastReportId = "#{@last_report_id}";
-    console.log("Last report ID: " + lastReportId);
 
     $(document).on('ajax:complete', '#email-form', function() {
       $('#email-request').hide();
@@ -94,20 +93,18 @@
     $(document).on('ajax:complete', '#report-form', function() {
       $('#report-request').hide();
       $('#report-thanks').show();
-      
-      console.log("Returned from report form");
-      fetchReports(lastReportId);
     });
+
+    setInterval(function(){fetchReports(lastReportId);}, 3000);
 
     function fetchReports(lastId) {
       $.ajax({
         'url' : "#{reports_since_path}",
         'data' : {'last' : lastId}
-      }).always(function(data) {
-        console.log("In always return");
-        console.log(data);
-        if(data.length > 0) {
-          appendReports(data);
+      }).always(function(responseData) {
+        if(responseData.length > 0) {
+          appendReports(responseData);
+          lastReportId = responseData[responseData.length - 1].id;
         }
       });
     }
